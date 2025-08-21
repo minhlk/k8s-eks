@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>JSON Response</h1>
+<pre id="output"></pre>
+<script>
+fetch('http://localhost:9000/api')
+  .then(r => r.json())
+  .then(data => document.getElementById('output').textContent = JSON.stringify(data))
+  .catch(err => console.error(err));
+</script>
+</body>
+</html>

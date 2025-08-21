@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: simple-love
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:lts
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: backend-secret
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-storage
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: simple-love
+spec:
+  selector:
+    app: db
+  ports:
+    - port: 3306
+      targetPort: 3306

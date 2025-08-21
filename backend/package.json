@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.3",
+    "nats": "^2.29.3",
+    "prom-client": "^15.1.3"
+  }
+}

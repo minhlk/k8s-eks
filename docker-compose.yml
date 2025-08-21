@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "81:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html/
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    ports:
+      - "9001:9000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - queue
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: pass
+      MYSQL_DATABASE: app
+      NATS_HOST: queue
+
+  worker:
+    build: ./worker
+    volumes:
+      - ./worker:/app
+    depends_on:
+      - queue
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: pass
+      MYSQL_DATABASE: app
+      NATS_HOST: queue
+
+  db:
+    image: mysql:lts
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: app
+    ports:
+      - "33066:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  queue:
+    image: nats:2.11.7-alpine3.22
+    ports:
+      - "4222:4222"
+
+volumes:
+  db_data:
