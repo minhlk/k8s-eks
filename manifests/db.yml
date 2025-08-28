@@ -21,13 +21,13 @@ spec:
           envFrom:
             - secretRef:
                 name: backend-secret
-          volumeMounts:
-            - mountPath: /var/lib/mysql
-              name: mysql-storage
-      volumes:
-        - name: mysql-storage
-          persistentVolumeClaim:
-            claimName: mysql-pvc
+          # volumeMounts:
+          #   - mountPath: /var/lib/mysql
+          #     name: mysql-storage
+      # volumes:
+      #   - name: mysql-storage
+      #     persistentVolumeClaim:
+      #       claimName: mysql-pvc
 ---
 apiVersion: v1
 kind: Service
