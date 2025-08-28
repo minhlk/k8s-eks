@@ -8,9 +8,9 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
 spec: 
-  ingressClassName: alb
+  ingressClassName: alb # comment this for using with minikube locally
   rules:
-    - host: simple-love.com
+    - host: # simple-love.com # localhost
       http:
         paths:
           - path: /
