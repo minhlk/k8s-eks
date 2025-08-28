@@ -3,7 +3,12 @@ kind: Ingress
 metadata:
   name: simple-love-ingress
   namespace: simple-love
-spec:
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+spec: 
+  ingressClassName: alb
   rules:
     - host: simple-love.com
       http:
