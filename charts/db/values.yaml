@@ -1,0 +1,14 @@
+namespace: simple-love
+replicaCount: 1
+
+image:
+  repository: mysql:lts
+  pullPolicy: IfNotPresent
+  port: 3306
+  tag: ""
+
+service:
+  type: ClusterIP
+  port: 3306
+
+resources: {}

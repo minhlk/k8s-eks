@@ -20,7 +20,7 @@ spec:
             - containerPort: 3306
           envFrom:
             - secretRef:
-                name: backend-secret
+                name: {{ .Values.namespace }}-secret
           # volumeMounts:
           #   - mountPath: /var/lib/mysql
           #     name: mysql-storage
@@ -28,15 +28,3 @@ spec:
       #   - name: mysql-storage
       #     persistentVolumeClaim:
       #       claimName: mysql-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db
-  namespace: simple-love
-spec:
-  selector:
-    app: db
-  ports:
-    - port: 3306
-      targetPort: 3306
