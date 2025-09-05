@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workder
+  name: worker
 spec:
   destination:
     namespace: simple-love
@@ -12,8 +12,8 @@ spec:
     targetRevision: main
     helm:
       valueFiles:
-        - /env/dev/worker/workder-values.yml
-  project: default
+        - /env/dev/worker/worker-values.yml
+  project: simple-love-project
   syncPolicy:
     automated:
       prune: false

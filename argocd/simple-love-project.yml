@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: simple-love-project
+  namespace: argocd
+spec:
+  description: Project for simple love microservices
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  # (optional) Also allow any namespaced resources
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

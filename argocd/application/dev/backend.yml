@@ -13,7 +13,7 @@ spec:
     helm:
       valueFiles:
         - /env/dev/backend/backend-values.yml
-  project: default
+  project: simple-love-project
   syncPolicy:
     automated:
       prune: false
