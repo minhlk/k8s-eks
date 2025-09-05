@@ -1,0 +1,8 @@
+namespace: simple-love
+replicaCount: 1
+
+image:
+  repository: minhlk/k8s-worker:v1.2
+  tag: "1.0.0"
+
+resources: {}
