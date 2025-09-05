@@ -21,10 +21,10 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.namespace }}-secret
-          # volumeMounts:
-          #   - mountPath: /var/lib/mysql
-          #     name: mysql-storage
-      # volumes:
-      #   - name: mysql-storage
-      #     persistentVolumeClaim:
-      #       claimName: mysql-pvc
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-storage
+      volumes:
+        - name: mysql-storage
+          persistentVolumeClaim:
+            claimName: mysql-pvc
