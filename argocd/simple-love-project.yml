@@ -13,7 +13,12 @@ spec:
   clusterResourceWhitelist:
     - group: ''
       kind: Namespace
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
   # (optional) Also allow any namespaced resources
   namespaceResourceWhitelist:
     - group: '*'
       kind: '*'
+  
