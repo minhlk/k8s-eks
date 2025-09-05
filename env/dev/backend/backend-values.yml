@@ -1,5 +1,5 @@
 namespace: simple-love
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: minhlk/k8s-backend:v1.3
@@ -10,4 +10,9 @@ service:
   type: ClusterIP
   port: 80
 
-resources: {}
+resources:
+  limits:
+    cpu: 200m
+    memory: 512Mi
+  requests:
+    memory: 128Mi
