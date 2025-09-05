@@ -1,0 +1,27 @@
+namespace: simple-love
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 3306
+
+resources: {}
+
+grafana:
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: false
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://simple-love-loki:3100
+      isDefault: true
+      jsonData:
+        maxLines: 1000
+promtail:
+  enabled: true
+  config:
+    clients:
+      - url: http://simple-love-loki:3100/loki/api/v1/push
