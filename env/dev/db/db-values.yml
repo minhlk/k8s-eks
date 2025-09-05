@@ -11,7 +11,8 @@ service:
   type: ClusterIP
   port: 3306
 
-limits:
+resources:
+  limits:
     cpu: 200m
     memory: 512Mi
   requests:
