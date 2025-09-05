@@ -11,3 +11,7 @@ service:
   port: 80
 
 resources: {}
+
+metrics:
+  target:
+    averageUtilization: 40
