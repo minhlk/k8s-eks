@@ -2,8 +2,8 @@ namespace: simple-love
 replicaCount: 2
 
 image:
-  repository: minhlk/k8s-worker:latest
-  tag: "1.0.1"
+  repository: minhlk/k8s-worker
+  tag: "1.0.0"
 
 resources:
   limits:
