@@ -20,6 +20,12 @@ grafana:
       isDefault: true
       jsonData:
         maxLines: 1000
+
+loki-stack:
+  loki:
+    image:
+      tag: 2.9.3
+
 promtail:
   enabled: true
   config:
