@@ -26,6 +26,7 @@ const pool = createPool({
 })();
 
 async function initDB() {
+  await pool.query('USE ' + process.env.MYSQL_DATABASE);
   await pool.execute(`
     CREATE TABLE IF NOT EXISTS messages (
       id INT AUTO_INCREMENT PRIMARY KEY,
