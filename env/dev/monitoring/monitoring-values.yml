@@ -10,7 +10,7 @@ resources: {}
 grafana:
   sidecar: {}
   datasources:
-    loki.yaml:
+    datasources.yaml:
       apiVersion: 1
       datasources:
       - name: Loki
@@ -20,9 +20,6 @@ grafana:
         isDefault: true
         jsonData:
           maxLines: 1000
-    prometheus.yaml:
-      apiVersion: 1
-      datasources:
       - name: Prometheus
         type: prometheus
         access: proxy
