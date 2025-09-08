@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: simple-love-appset
+spec:
+  generators:
+    - list:
+        elements:
+          - name: db
+            path: charts/db
+            valueFile: /env/dev/db/db-values.yml
+          - name: backend
+            path: charts/backend
+            valueFile: /env/dev/backend/backend-values.yml
+          - name: frontend
+            path: charts/frontend
+            valueFile: /env/dev/frontend/frontend-values.yml
+          - name: monitoring
+            path: charts/monitoring
+            valueFile: /env/dev/monitoring/monitoring-values.yml
+          - name: worker
+            path: charts/worker
+            valueFile: /env/dev/worker/worker-values.yml
+  template:
+    metadata:
+      namespace: simple-love
+      name: '{{name}}'
+    spec:
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: simple-love
+      project: simple-love-project
+      source:
+        path: '{{path}}'
+        repoURL: https://github.com/minhlk/k8s-eks
+        targetRevision: main
+        helm:
+          valueFiles:
+            - '{{valueFile}}'
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
+          enabled: true
+        syncOptions:
+          - PrunePropagationPolicy=foreground
+          - CreateNamespace=true
