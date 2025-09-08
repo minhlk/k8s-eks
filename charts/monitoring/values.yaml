@@ -17,7 +17,6 @@ grafana:
         type: loki
         access: proxy
         url: http://{{ .Release.Name }}-loki:3100
-        isDefault: true
         jsonData:
           maxLines: 1000
       - name: Prometheus
