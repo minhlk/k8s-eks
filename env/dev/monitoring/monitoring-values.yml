@@ -8,9 +8,7 @@ service:
 resources: {}
 
 grafana:
-  sidecar:
-    datasources:
-      enabled: false
+  sidecar: {}
   datasources:
     datasources.yaml:
       apiVersion: 1
@@ -18,7 +16,7 @@ grafana:
       - name: Loki
         type: loki
         access: proxy
-        url: http://{{ .Release.Name }}:3100
+        url: http://{{ .Release.Name }}-loki:3100
         isDefault: true
         jsonData:
           maxLines: 1000
@@ -31,4 +29,4 @@ loki-stack:
     enabled: true
     config:
       clients:
-        - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
+        - url: http://{{ .Release.Name }}-loki:3100/loki/api/v1/push
