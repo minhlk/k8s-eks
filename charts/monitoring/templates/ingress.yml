@@ -12,13 +12,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: ${{ .Release.Name }}-grafana
+                name: {{ .Release.Name }}-grafana
                 port:
                   number: 3000
           - path: /loki
             pathType: Prefix
             backend:
               service:
-                name: ${{ .Release.Name }}-loki
+                name: {{ .Release.Name }}-loki
                 port:
                   number: 3100
