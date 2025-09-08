@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-loki-grafana
+  name: ingress-grafana
   namespace: simple-love-monitoring
 spec:
   rules:
@@ -14,11 +14,4 @@ spec:
               service:
                 name: {{ .Release.Name }}-grafana
                 port:
-                  number: 3000
-          - path: /loki
-            pathType: Prefix
-            backend:
-              service:
-                name: {{ .Release.Name }}-loki
-                port:
-                  number: 3100
+                  number: 80
