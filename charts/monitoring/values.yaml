@@ -8,11 +8,7 @@ service:
 resources: {}
 
 grafana:
-  enabled: true
-  sidecar:
-    datasources:
-      enabled: false
-  additionalDataSources:
+  datasources:
     - name: Loki
       type: loki
       access: proxy
