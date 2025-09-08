@@ -4,7 +4,7 @@
 <h1>JSON Response</h1>
 <pre id="output"></pre>
 <script>
-fetch('http://simple-love.com/api')
+fetch('https://simple-love.com/api')
   .then(r => r.json())
   .then(data => document.getElementById('output').textContent = JSON.stringify(data))
   .catch(err => console.error(err));
