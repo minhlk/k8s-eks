@@ -23,4 +23,8 @@ spec:
                 name: {{ .Values.namespace }}-secret
           resources:
             requests:
-              cpu: "100m"
+              cpu: {{ .Values.resources.requests.cpu | default "" }}
+              memory: {{ .Values.resources.requests.memory | default "" }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | default "" }}
+              memory: {{ .Values.resources.limits.memory | default "" }}
