@@ -10,13 +10,23 @@ resources: {}
 grafana:
   sidecar: {}
   datasources:
-    datasources.yaml:
+    loki.yaml:
       apiVersion: 1
       datasources:
       - name: Loki
         type: loki
         access: proxy
         url: http://{{ .Release.Name }}-loki:3100
+        isDefault: true
+        jsonData:
+          maxLines: 1000
+    prometheus.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://{{ .Release.Name }}-prometheus-server:80
         isDefault: true
         jsonData:
           maxLines: 1000
