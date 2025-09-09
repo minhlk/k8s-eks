@@ -29,29 +29,34 @@ Simple application demonstrate using Kubernetes in AWS with:
 ## Deploying the Application:
 
 - Create the Kubernetes namespace (`simple-love`) `k apply -f namespace.yml`.
-- Apply the `secret.yml` for database credentials.
-- Apply `db.yml`, `backend.yml`, `frontend.yml`, and `worker.yml`.
-- Apply `ingress.yml` and how to configure the host for the ALB.
-- Mention `hpa.yml` for horizontal pod autoscaling.
-- Discuss `pvc.yml` if persistent storage is needed for the database (currently commented out since aws won't support Fargate type for it).
 
 ## Monitoring Setup (Optional):
 
-- Monitoring stack (Grafana, Loki - log, Prometheus) using Helm and the provided manifests (`manifests/monitoring/`).
+- Monitoring stack (Grafana, Loki - log, Prometheus) using Helm
 
 ```bash
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install argocd argo/argo-cd --namespace argocd
+k apply -f argocd/simple-love-project.yml -n argocd
+k apply -f argocd/application/dev/appsets.yml -n argocd
+minikube service argocd-server -n argocd
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
+
 helm repo add nats https://nats-io.github.io/k8s/helm/charts/
 helm repo update
-helm install simple-love-loki grafana/loki-stack --namespace simple-love-monitoring --create-namespace -f grafana-values.yml
-helm install simple-love-prometheus prometheus-community/prometheus -n simple-love-monitoring
 helm upgrade --install nats nats/nats -n simple-love-queue
 ```
 - Get password to access Grafana
 
 ```bash
-kubectl get secret -n simple-love-monitoring simple-love-loki-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+kubectl get secret -n simple-love-monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+```
+
+- Access through minikube + etc with host
+- https://simple-love.com (Frontend)
+- https://simple-love.com/api (Backend)
+- https://simple-love-monitoring.com (Grafana)
+```bash
+minikube tunnel
 ```
 
 ## Accessing the Application:
