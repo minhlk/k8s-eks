@@ -1,20 +1,20 @@
 version: "3.8"
 services:
   frontend:
-    build: ./frontend
+    build: ./application/frontend
     ports:
       - "81:80"
     volumes:
-      - ./frontend:/usr/share/nginx/html/
+      - ./application/frontend:/usr/share/nginx/html/
     depends_on:
       - backend
 
   backend:
-    build: ./backend
+    build: ./application/backend
     ports:
       - "9001:9000"
     volumes:
-      - ./backend:/app
+      - ./application/backend:/app
     depends_on:
       - queue
       - db
@@ -26,9 +26,9 @@ services:
       NATS_HOST: queue
 
   worker:
-    build: ./worker
+    build: ./application/worker
     volumes:
-      - ./worker:/app
+      - ./application/worker:/app
     depends_on:
       - queue
       - db
