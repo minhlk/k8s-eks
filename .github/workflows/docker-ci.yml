@@ -65,8 +65,8 @@ jobs:
           context: application/${{ matrix.service }}
           push: true
           tags: |
-            ${{ env.DOCKER_HUB_USERNAME }}/${{ IMAGE }}:${{ IMAGE_TAG }}
-            ${{ env.DOCKER_HUB_USERNAME }}/${{ IMAGE }}:latest
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE }}:latest
 
       - name: Update Helm values
         run: |
