@@ -1,44 +1,18 @@
-name: Build and Push to Docker Hub
-
+name: Reusable Build and Push
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      service:
+        description: 'The service to build (e.g., backend or frontend)'
+        required: true
+        type: string
 
 env:
   DOCKER_HUB_USERNAME: minhlk
 
 jobs:
-  detect-changes:
+  build-and-push:
     runs-on: ubuntu-latest
-    outputs:
-      backend: ${{ steps.filter.outputs.backend }}
-      frontend: ${{ steps.filter.outputs.frontend }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            backend:
-              - 'services/backend/**'
-              - 'charts/backend/**'
-              - 'env/dev/backend/**'
-              - 'application/backend/**'
-            frontend:
-              - 'services/frontend/**'
-              - 'charts/frontend/**'
-              - 'env/dev/frontend/**'
-              - 'application/frontend/**'
-
-  build:
-    needs: detect-changes
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: [backend, frontend]
-      max-parallel: 1
-    if: needs.detect-changes.outputs[matrix.service] == 'true'
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -51,7 +25,7 @@ jobs:
 
       - name: Tag image
         run: |
-          IMAGE=minhlk/k8s-${{ matrix.service }}
+          IMAGE=minhlk/k8s-${{ inpust.service }}
           TAG=${GITHUB_SHA::7}
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
@@ -62,7 +36,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: application/${{ matrix.service }}
+          context: application/${{ inpust.service }}
           push: true
           tags: |
             ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
@@ -70,10 +44,10 @@ jobs:
 
       - name: Update Helm values
         run: |
-          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" env/dev/${{ matrix.service }}/${{ matrix.service }}-values.yml
+          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" env/dev/${{ inpust.service }}/${{ inpust.service }}-values.yml
       - name: Commit & push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git commit -am "Update ${{ matrix.service }} image tag to $IMAGE_TAG"
+          git commit -am "Update ${{ inpust.service }} image tag to $IMAGE_TAG"
           git push

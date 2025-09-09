@@ -1,0 +1,46 @@
+name: Build and Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'services/backend/**'
+              - 'charts/backend/**'
+              - 'env/dev/backend/**'
+              - 'application/backend/**'
+            frontend:
+              - 'services/frontend/**'
+              - 'charts/frontend/**'
+              - 'env/dev/frontend/**'
+              - 'application/frontend/**'
+
+  build-backend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.backend == 'true'
+    uses: ./.github/workflows/docker-ci.yml
+    with:
+      service: backend
+    secrets: inherit
+
+  build-frontend:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    uses: ./.github/workflows/docker-ci.yml
+    with:
+      service: frontend
+    secrets: inherit
+
