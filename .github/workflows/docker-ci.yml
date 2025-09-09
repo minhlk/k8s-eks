@@ -40,6 +40,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: application/${{ inputs.service }}
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
