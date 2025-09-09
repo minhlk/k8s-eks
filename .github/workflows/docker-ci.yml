@@ -25,7 +25,7 @@ jobs:
 
       - name: Tag image
         run: |
-          IMAGE=minhlk/k8s-${{ inpust.service }}
+          IMAGE=minhlk/k8s-${{ inputs.service }}
           TAG=${GITHUB_SHA::7}
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
@@ -36,7 +36,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: application/${{ inpust.service }}
+          context: application/${{ inputs.service }}
           push: true
           tags: |
             ${{ env.DOCKER_HUB_USERNAME }}/${{ env.IMAGE }}:${{ env.IMAGE_TAG }}
@@ -44,10 +44,10 @@ jobs:
 
       - name: Update Helm values
         run: |
-          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" env/dev/${{ inpust.service }}/${{ inpust.service }}-values.yml
+          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" env/dev/${{ inputs.service }}/${{ inputs.service }}-values.yml
       - name: Commit & push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git commit -am "Update ${{ inpust.service }} image tag to $IMAGE_TAG"
+          git commit -am "Update ${{ inputs.service }} image tag to $IMAGE_TAG"
           git push
