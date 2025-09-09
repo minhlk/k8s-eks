@@ -25,7 +25,7 @@ jobs:
 
       - name: Tag image
         run: |
-          IMAGE=minhlk/k8s-${{ inputs.service }}
+          IMAGE=k8s-${{ inputs.service }}
           TAG=${GITHUB_SHA::7}
           echo "IMAGE=$IMAGE" >> $GITHUB_ENV
           echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
