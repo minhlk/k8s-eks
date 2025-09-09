@@ -1,0 +1,79 @@
+name: Build and Push to Docker Hub
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKER_HUB_USERNAME: minhlk
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'services/backend/**'
+              - 'charts/backend/**'
+              - 'env/dev/backend/**'
+              - 'application/backend/**'
+            frontend:
+              - 'services/frontend/**'
+              - 'charts/frontend/**'
+              - 'env/dev/frontend/**'
+              - 'application/frontend/**'
+
+  build:
+    needs: detect-changes
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [backend, frontend]
+      max-parallel: 1
+    if: needs.detect-changes.outputs[matrix.service] == 'true'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Tag image
+        run: |
+          IMAGE=minhlk/k8s-${{ matrix.service }}
+          TAG=${GITHUB_SHA::7}
+          echo "IMAGE=$IMAGE" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: application/${{ matrix.service }}
+          push: true
+          tags: |
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ IMAGE }}:${{ IMAGE_TAG }}
+            ${{ env.DOCKER_HUB_USERNAME }}/${{ IMAGE }}:latest
+
+      - name: Update Helm values
+        run: |
+          sed -i "s|tag:.*|tag: \"$IMAGE_TAG\"|" env/dev/${{ matrix.service }}/${{ matrix.service }}-values.yml
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git commit -am "Update ${{ matrix.service }} image tag to $IMAGE_TAG"
+          git push
