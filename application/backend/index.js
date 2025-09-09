@@ -19,7 +19,7 @@ const pool = createPool({
 app.get('/api', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT NOW() AS time');
-    console.log('Test tailing demo:' + networkInterfaces['eth0'][0]['address']);
+    console.log('Test tailing demo 2:' + networkInterfaces['eth0'][0]['address']);
     res.json({
       ...{
         pod: 'backend',
