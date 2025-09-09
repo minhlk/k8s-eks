@@ -4,7 +4,7 @@ replicaCount: 2
 image:
   repository: minhlk/k8s-backend
   port: 9000
-  tag: "1.0.0"
+  tag: "2c173be"
 
 service:
   type: ClusterIP
