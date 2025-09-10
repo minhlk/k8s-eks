@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-backend
   namespace: {{ .Values.namespace }}
+  annotations:
+    checksum/secret: {{ include "db.secretChecksum" }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
