@@ -11,26 +11,47 @@ spec:
             path: charts/db
             valueFile: /env/prod/db/db-values.yml
             namespace: simple-love-prod
+            order: '1'
           - name: backend
             path: charts/backend
             valueFile: /env/prod/backend/backend-values.yml
             namespace: simple-love-prod
+            order: '2'
           - name: frontend
             path: charts/frontend
             valueFile: /env/prod/frontend/frontend-values.yml
             namespace: simple-love-prod
+            order: '2'
           - name: monitoring
             path: charts/monitoring
             valueFile: /env/prod/monitoring/monitoring-values.yml
             namespace: simple-love-monitoring-prod
+            order: '2'
           - name: worker
             path: charts/worker
             valueFile: /env/prod/worker/worker-values.yml
             namespace: simple-love-prod
+            order: '2'
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - matchExpressions:
+            - key: order
+              operator: In
+              values:
+                - '1'
+        - matchExpressions:
+            - key: order
+              operator: NotIn
+              values:
+                - '1'
   template:
     metadata:
       namespace: '{{namespace}}'
       name: '{{name}}-prod'
+      labels:
+        order: '{{order}}'
     spec:
       destination:
         server: https://kubernetes.default.svc
