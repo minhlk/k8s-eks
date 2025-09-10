@@ -23,9 +23,9 @@ spec:
             - containerPort: {{ .Values.image.port }}
           envFrom:
             - secretRef:
-              name: {{ .Values.namespace }}-secret
+                name: {{ .Values.namespace }}-secret
             - configMapRef:
-              name: {{ .Values.namespace }}-configmap
+                name: {{ .Values.namespace }}-configmap
           resources:
             requests:
               cpu: {{ .Values.resources.requests.cpu | default "" }}
