@@ -77,3 +77,7 @@ Simple application demonstrate using Kubernetes in AWS with:
 ## Cleanup:
 
 - Delete the Kubernetes EKS cluster and Helm related resources (ALB...)
+
+## Demo
+
+![Argocd UI](argo-ui.png "ArgoCD UI")
