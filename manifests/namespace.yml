@@ -13,10 +13,4 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: simple-love-queue
-
----
-apiVersion: v1
-kind: Namespace
-metadata:
   name: simple-love-monitoring
