@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.namespace }}-configmap
+  namespace: {{ .Values.namespace }}
+data:
+  NATS_HOST: nats.{{ .Values.namespace }}.svc.cluster.local

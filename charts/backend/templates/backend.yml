@@ -3,9 +3,6 @@ kind: Deployment
 metadata:
   name: {{ .Release.Name }}-backend
   namespace: {{ .Values.namespace }}
-  annotations:
-    checksum/db-secret: |
-        {{ (lookup "v1" "ConfigMap" "simple-love" "db-configmap").data.db-secret-checksum }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -23,7 +20,9 @@ spec:
             - containerPort: {{ .Values.image.port }}
           envFrom:
             - secretRef:
-                name: {{ .Values.namespace }}-secret
+              name: {{ .Values.namespace }}-secret
+            - configMapRef:
+              name: {{ .Values.namespace }}-configmap
           resources:
             requests:
               cpu: {{ .Values.resources.requests.cpu | default "" }}
