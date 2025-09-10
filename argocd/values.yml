@@ -1,0 +1,3 @@
+configs:
+  params:
+    applicationsetcontroller.enable.progressive.syncs: "true"

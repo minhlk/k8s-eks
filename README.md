@@ -29,7 +29,7 @@ Simple application demonstrate using Kubernetes in AWS with:
 
 3. **Install ArgoCD**:
     ```bash
-    helm install argocd argo/argo-cd --namespace argocd
+    helm install argocd argo/argo-cd --namespace argocd -f argocd/values.yml
     ```
 
 4. **Create the ArgoCD Project**:

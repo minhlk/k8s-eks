@@ -27,6 +27,11 @@ spec:
             path: charts/worker
             valueFile: /env/dev/worker/worker-values.yml
             namespace: simple-love-dev
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+        - maxUpdate: 1
   template:
     metadata:
       namespace: '{{namespace}}'
