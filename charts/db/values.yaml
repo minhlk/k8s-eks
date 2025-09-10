@@ -12,6 +12,3 @@ service:
   port: 3306
 
 resources: {}
-
-db:
-  pvc: pvc-name

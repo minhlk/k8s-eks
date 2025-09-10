@@ -17,6 +17,3 @@ resources:
     memory: 512Mi
   requests:
     memory: 128Mi
-
-db:
-  pvc: db-prod-pvc
