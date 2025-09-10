@@ -46,7 +46,7 @@ Simple application demonstrate using Kubernetes in AWS with:
     ```host
     # File /etc/hosts
     127.0.0.1 simple-love-{dev/prod}.com
-    127.0.0.1 simple-love-{dev/prod}-monitoring.com
+    127.0.0.1 simple-love-monitoring-{dev/prod}.com
     ```
     
     ```bash
@@ -63,8 +63,8 @@ Simple application demonstrate using Kubernetes in AWS with:
     ```
 2. **Grafana UI**
     ```bash
-    kubectl get secret -n simple-love-{dev/prod}-monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
-    https://simple-love-{dev/prod}-monitoring.com
+    kubectl get secret -n simple-love-monitoring-{dev/prod} monitoring-{dev/prod}-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+    https://simple-love-monitoring-{dev/prod}.com
     ```
 
 ## GitOps Workflow
