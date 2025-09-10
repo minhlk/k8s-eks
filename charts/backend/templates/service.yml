@@ -9,7 +9,7 @@ metadata:
     prometheus.io/path: "/metrics"
 spec:
   selector:
-    app: {{ .Release.Name }}-svc
+     app: {{ .Release.Name }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.port }}
