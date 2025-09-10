@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: {{ .Release.Name }}-svc
   namespace: {{ .Values.namespace }}
   annotations:
     prometheus.io/scrape: "true"
@@ -9,7 +9,7 @@ metadata:
     prometheus.io/path: "/metrics"
 spec:
   selector:
-    app: backend
+    app: {{ .Release.Name }}-svc
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.port }}

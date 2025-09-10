@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db
+  name: {{ .Release.Name }}-db
   namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: db
+      app: {{ .Release.Name }}-db
   template:
     metadata:
       labels:
-        app: db
+        app: {{ .Release.Name }}-db
     spec:
       containers:
-        - name: db
+        - name: {{ .Release.Name }}-db
           image: mysql:lts
           ports:
             - containerPort: 3306

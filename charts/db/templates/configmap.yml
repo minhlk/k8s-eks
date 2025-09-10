@@ -4,4 +4,4 @@ metadata:
   name: {{ .Values.namespace }}-configmap
   namespace: {{ .Values.namespace }}
 data:
-  NATS_HOST: db-nats.{{ .Values.namespace }}.svc.cluster.local
+  NATS_HOST: {{ .Release.Name }}-nats.{{ .Values.namespace }}.svc.cluster.local
