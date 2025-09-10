@@ -1,10 +1,10 @@
-namespace: simple-love-dev
+namespace: simple-love-prod
 replicaCount: 2
 
 image:
-  repository: minhlk/k8s-frontend
-  port: 80
-  tag: "8278992"
+  repository: minhlk/k8s-backend
+  port: 9000
+  tag: "010adac"
 
 service:
   type: ClusterIP
@@ -17,7 +17,3 @@ resources:
   limits:
     cpu: 200m
     memory: 512Mi
-
-metrics:
-  target:
-    averageUtilization: 40

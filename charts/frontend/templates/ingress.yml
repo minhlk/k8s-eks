@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: simple-love-ingress
+  name: {{ .Values.namespace }}-ingress
   namespace: {{ .Values.namespace }}
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -10,7 +10,7 @@ metadata:
 spec: 
   # ingressClassName: alb # comment this for using with minikube locally
   rules:
-    - host: simple-love.com
+    - host: {{ .Values.namespace }}.com
       http:
         paths:
           - path: /

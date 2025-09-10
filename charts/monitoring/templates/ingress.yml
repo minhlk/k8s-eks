@@ -2,10 +2,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-grafana
-  namespace: simple-love-monitoring
+  namespace: {{ .Values.namespace }}
 spec:
   rules:
-    - host: simple-love-monitoring.com
+    - host: {{ .Values.namespace }}.com
       http:
         paths:
           - path: /

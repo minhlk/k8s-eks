@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: simple-love-appset-dev
+  name: simple-love-appset-prod
   namespace: argocd
 spec:
   generators:
@@ -9,28 +9,28 @@ spec:
         elements:
           - name: db
             path: charts/db
-            valueFile: /env/dev/db/db-values.yml
-            namespace: simple-love-dev
+            valueFile: /env/prod/db/db-values.yml
+            namespace: simple-love-prod
           - name: backend
             path: charts/backend
-            valueFile: /env/dev/backend/backend-values.yml
-            namespace: simple-love-dev
+            valueFile: /env/prod/backend/backend-values.yml
+            namespace: simple-love-prod
           - name: frontend
             path: charts/frontend
-            valueFile: /env/dev/frontend/frontend-values.yml
-            namespace: simple-love-dev
+            valueFile: /env/prod/frontend/frontend-values.yml
+            namespace: simple-love-prod
           - name: monitoring
             path: charts/monitoring
-            valueFile: /env/dev/monitoring/monitoring-values.yml
-            namespace: simple-love-dev-monitoring
+            valueFile: /env/prod/monitoring/monitoring-values.yml
+            namespace: simple-love-prod-monitoring
           - name: worker
             path: charts/worker
-            valueFile: /env/dev/worker/worker-values.yml
-            namespace: simple-love-dev
+            valueFile: /env/prod/worker/worker-values.yml
+            namespace: simple-love-prod
   template:
     metadata:
       namespace: '{{namespace}}'
-      name: '{{name}}-dev'
+      name: '{{name}}-prod'
     spec:
       destination:
         server: https://kubernetes.default.svc

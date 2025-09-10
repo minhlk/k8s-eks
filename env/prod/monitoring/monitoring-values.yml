@@ -1,4 +1,4 @@
-namespace: simple-love-monitoring-dev
+namespace: simple-love-monitoring-prod
 replicaCount: 1
 
 service:

@@ -39,21 +39,14 @@ Simple application demonstrate using Kubernetes in AWS with:
 
 5. **Deploy to Development**:
    ```bash
-   kubectl apply -f argocd/application/dev
+   kubectl apply -f argocd/application/
    ```
 
-6. **Install NATS for event driven communication**:
-   ```bash
-    helm repo add nats https://nats-io.github.io/k8s/helm/charts/
-    helm repo update
-    helm upgrade --install nats nats/nats -n simple-love
-   ```
-
-7. **Create local DNS (minikube)**:
+6. **Create local DNS (minikube)**:
     ```host
     # File /etc/hosts
-    127.0.0.1 simple-love.com
-    127.0.0.1 simple-love-monitoring.com
+    127.0.0.1 simple-love-{dev/prod}.com
+    127.0.0.1 simple-love-monitoring-{dev/prod}.com
     ```
     
     ```bash
@@ -70,8 +63,8 @@ Simple application demonstrate using Kubernetes in AWS with:
     ```
 2. **Grafana UI**
     ```bash
-    kubectl get secret -n simple-love-monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
-    https://simple-love-monitoring.com
+    kubectl get secret -n simple-love-monitoring-{dev/prod} monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+    https://simple-love-monitoring-{dev/prod}.com
     ```
 
 ## GitOps Workflow

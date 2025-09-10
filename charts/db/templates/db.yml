@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
-  namespace: simple-love
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: 1
   selector:

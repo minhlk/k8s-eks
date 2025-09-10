@@ -1,4 +1,4 @@
-namespace: simple-love-monitoring
+namespace: {{ .Values.namespace}}
 replicaCount: 1
 
 service:

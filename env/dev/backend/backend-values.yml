@@ -1,4 +1,4 @@
-namespace: simple-love
+namespace: simple-love-dev
 replicaCount: 2
 
 image:
