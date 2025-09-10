@@ -1,4 +1,4 @@
-namespace: {{ .Values.namespace}}
+namespace: example-namespace
 replicaCount: 1
 
 service:
