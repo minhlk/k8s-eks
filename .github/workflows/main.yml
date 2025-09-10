@@ -11,6 +11,7 @@ jobs:
     outputs:
       backend: ${{ steps.filter.outputs.backend }}
       frontend: ${{ steps.filter.outputs.frontend }}
+      worker: ${{ steps.filter.outputs.worker }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -18,15 +19,11 @@ jobs:
         with:
           filters: |
             backend:
-              - 'services/backend/**'
-              - 'charts/backend/**'
-              - 'env/dev/backend/**'
               - 'application/backend/**'
             frontend:
-              - 'services/frontend/**'
-              - 'charts/frontend/**'
-              - 'env/dev/frontend/**'
               - 'application/frontend/**'
+            worker:
+              - 'application/worker/**'
 
   build-backend:
     needs: detect-changes
@@ -43,4 +40,11 @@ jobs:
     with:
       service: frontend
     secrets: inherit
-
+  
+  build-worker:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.worker == 'true'
+    uses: ./.github/workflows/docker-ci.yml
+    with:
+      service: worker
+    secrets: inherit
