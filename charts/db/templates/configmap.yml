@@ -5,3 +5,4 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   NATS_HOST: nats.{{ .Values.namespace }}.svc.cluster.local
+  TEMP: test
