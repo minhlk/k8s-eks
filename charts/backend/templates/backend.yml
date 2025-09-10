@@ -4,7 +4,8 @@ metadata:
   name: {{ .Release.Name }}-backend
   namespace: {{ .Values.namespace }}
   annotations:
-    checksum/secret: {{ include "db.secretChecksum" }}
+    checksum/db-secret: |
+        {{ (lookup "v1" "ConfigMap" "simple-love" "db-secret-checksum").data.checksum }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:

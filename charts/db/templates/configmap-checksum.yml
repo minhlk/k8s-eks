@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-secret-checksum
+  namespace: simple-love
+data:
+  checksum/db-secret: "{{ include "db.secretChecksum" . }}"
