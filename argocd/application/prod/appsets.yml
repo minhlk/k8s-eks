@@ -22,7 +22,7 @@ spec:
           - name: monitoring
             path: charts/monitoring
             valueFile: /env/prod/monitoring/monitoring-values.yml
-            namespace: simple-love-prod-monitoring
+            namespace: simple-love-monitoring-prod
           - name: worker
             path: charts/worker
             valueFile: /env/prod/worker/worker-values.yml
