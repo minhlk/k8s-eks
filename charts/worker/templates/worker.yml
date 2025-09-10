@@ -10,11 +10,11 @@ spec:
       app: {{ .Chart.Name }}
   template:
     metadata:
+      annotations:
+        configmap.reloader.stakater.com/reload: "{{ .Values.namespace }}-configmap"
+        secret.reloader.stakater.com/reload: "{{ .Values.namespace }}-secret"
       labels:
         app: {{ .Chart.Name }}
-    annotations:
-      configmap.reloader.stakater.com/reload: "{{ .Values.namespace }}-configmap"
-      secret.reloader.stakater.com/reload: "{{ .Values.namespace }}-secret"
     spec:
       containers:
         - name: {{ .Chart.Name }}

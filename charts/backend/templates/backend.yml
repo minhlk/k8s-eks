@@ -7,14 +7,14 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: backend
+      app: {{ .Chart.Name }}
   template:
     metadata:
       annotations:
         configmap.reloader.stakater.com/reload: "{{ .Values.namespace }}-configmap"
         secret.reloader.stakater.com/reload: "{{ .Values.namespace }}-secret"
       labels:
-        app: backend
+        app: {{ .Chart.Name }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
