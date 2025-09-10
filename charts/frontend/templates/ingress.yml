@@ -17,13 +17,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: {{ .Release.Name }}-svc
                 port:
                   number: 80
           - path: /api
             pathType: Prefix
             backend:
               service:
-                name: backend
+                name: {{ .Values.backend.svc }}
                 port:
                   number: 80

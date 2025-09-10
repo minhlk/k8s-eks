@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-frontend
+  name: {{ .Release.Name }}-deployment
   namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: frontend
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: frontend
+        app: {{ .Release.Name }
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: {{ .Release.Name }}-svc
   namespace: {{ .Values.namespace }}
 spec:
   selector:
-    app: frontend
+    app: {{ .Release.Name }}
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.image.port }}

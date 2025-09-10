@@ -21,3 +21,6 @@ resources:
 metrics:
   target:
     averageUtilization: 40
+
+backend:
+  svc: backend-prod-svc
