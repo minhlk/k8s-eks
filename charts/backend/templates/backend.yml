@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     checksum/db-secret: |
-        {{ (lookup "v1" "ConfigMap" "simple-love" "db-secret-checksum").data.checksum }}
+        {{ (lookup "v1" "ConfigMap" "simple-love" "db-configmap").data.db-secret-checksum }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
