@@ -8,13 +8,13 @@ spec:
   selector:
     matchLabels:
       app: {{ .Chart.Name }}
-    annotations:
-      configmap.reloader.stakater.com/reload: "{{ .Values.namespace }}-configmap"
-      secret.reloader.stakater.com/reload: "{{ .Values.namespace }}-secret"
   template:
     metadata:
       labels:
         app: {{ .Chart.Name }}
+    annotations:
+      configmap.reloader.stakater.com/reload: "{{ .Values.namespace }}-configmap"
+      secret.reloader.stakater.com/reload: "{{ .Values.namespace }}-secret"
     spec:
       containers:
         - name: {{ .Chart.Name }}
