@@ -3,65 +3,76 @@ Simple application demonstrate using Kubernetes in AWS with:
 - EKS K8s Cluster
 - Event Driven Architecture using NATs
 - Monitoring and Login using Grafana, Loki, Prometheus through Helm charts.
+- Gitops for K8s cluster using ArgoCD
 
 ## Prerequisites:
 
 - AWS CLI configured.
+- Docker installed.
+- Helm installed.
+- ArgoCD installed on the cluster.
 - `kubectl` installed and configured.
 - `eksctl` installed.
-- Docker installed.
-- Helm installed (for monitoring stack).
 - Minikube (locally + metric server + ingress addons are enabled)
 
-## EKS Cluster Setup:
-
+## Quick Start
+1.  **EKS Cluster Setup**:
 - Create EKS cluster through AWS console. 
 - Create Node Group or Fargate Profile
 - Create Role for cluster, Node Group.
 - Create Access entry + policy for `kubectl` to access EKS cluster.
 
-## Container Image Management:
+2. **Create the namespace**:
+    ```bash
+    kubectl apply -f manifests/namespace.yml
+    ```
 
-- Building Docker images for `backend` and `frontend`.
-- Pushing images to a container registry (e.g., ECR or Docker Hub).
-- Updating image names in Kubernetes manifests.
+3. **Install ArgoCD**:
+    ```bash
+    helm install argocd argo/argo-cd --namespace argocd
+    ```
 
-## Deploying the Application:
+4. **Create the ArgoCD Project**:
+    ```bash
+    kubectl apply -f argocd/simple-love-project.yml
+    ```
 
-- Create the Kubernetes namespace (`simple-love`) `k apply -f namespace.yml`.
+5. **Deploy to Development**:
+   ```bash
+   kubectl apply -f argocd/application/dev
+   ```
 
-## Monitoring Setup (Optional):
+6. **Install NATS for event driven communication**:
+   ```bash
+    helm repo add nats https://nats-io.github.io/k8s/helm/charts/
+    helm repo update
+    helm upgrade --install nats nats/nats -n simple-love
+   ```
 
-- Monitoring stack (Grafana, Loki - log, Prometheus) using Helm
+7. **Create local DNS (minikube)**:
+    ```host
+    # File /etc/hosts
+    127.0.0.1 simple-love.com
+    127.0.0.1 simple-love-monitoring.com
+    ```
+    
+    ```bash
+    #Tunnel minikube cluster to localhost
+    minikube tunnel
+    ```
 
-```bash
-helm install argocd argo/argo-cd --namespace argocd
-k apply -f argocd/simple-love-project.yml -n argocd
-k apply -f argocd/application/dev/appsets.yml -n argocd
-minikube service argocd-server -n argocd
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
-
-helm repo add nats https://nats-io.github.io/k8s/helm/charts/
-helm repo update
-helm upgrade --install nats nats/nats -n simple-love-queue
-```
-- Get password to access Grafana
-
-```bash
-kubectl get secret -n simple-love-monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
-```
-
-- Access through minikube + etc with host
-- https://simple-love.com (Frontend)
-- https://simple-love.com/api (Backend)
-- https://simple-love-monitoring.com (Grafana)
-```bash
-minikube tunnel
-```
-
-## Accessing the Application:
-
-- Access Application Load Balancer URL.
+## Access 
+1. **ArgoCD UI**
+    ```bash
+    minikube service argocd-server -n argocd
+    # Get ArgoCD Password (User: admin)
+    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo
+    ```
+2. **Grafana UI**
+    ```bash
+    kubectl get secret -n simple-love-monitoring monitoring-grafana -o jsonpath="{.data.admin-password}" | base64 --decode
+    https://simple-love-monitoring.com
+    ```
 
 ## Cleanup:
 
