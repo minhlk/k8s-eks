@@ -21,6 +21,6 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           envFrom:
             - secretRef:
-              name: {{ .Values.namespace }}-secret
+                name: {{ .Values.namespace }}-secret
             - configMapRef:
-              name: {{ .Values.namespace }}-configmap
+                name: {{ .Values.namespace }}-configmap
