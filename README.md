@@ -22,27 +22,17 @@ Simple application demonstrate using Kubernetes in AWS with:
 - Create Role for cluster, Node Group.
 - Create Access entry + policy for `kubectl` to access EKS cluster.
 
-2. **Create the namespace**:
+2. **Deploy the ArgoCD Project**:
     ```bash
-    kubectl apply -f manifests/namespace.yml
+    k kustomize argocd/overlays/{dev/prod} --enable-helm | kubectl apply -f -
     ```
 
-3. **Install ArgoCD**:
+2.1 **Destroy the ArgoCD Project**:
     ```bash
-    helm install argocd argo/argo-cd --namespace argocd -f argocd/values.yml
+    k kustomize argocd/overlays/{dev/prod} --enable-helm | kubectl delete -f -
     ```
 
-4. **Create the ArgoCD Project**:
-    ```bash
-    kubectl apply -f argocd/simple-love-project.yml
-    ```
-
-5. **Deploy to Development**:
-   ```bash
-   kubectl apply -f argocd/application/
-   ```
-
-6. **Create local DNS (minikube)**:
+3. **Create local DNS (minikube)**:
     ```host
     # File /etc/hosts
     127.0.0.1 simple-love-{dev/prod}.com

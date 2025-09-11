@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+patchesStrategicMerge:
+  - appsets.yml
+
+helmCharts:
+  - name: reloader
+    repo: https://stakater.github.io/stakater-charts
+    version: 2.2.2
+    namespace: simple-love-prod
+    releaseName: reloader
