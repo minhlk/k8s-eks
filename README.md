@@ -30,6 +30,7 @@ Simple application demonstrate using Kubernetes in AWS with:
 2.1 **Destroy the ArgoCD Project**:
     ```bash
     k kustomize argocd/overlays/{dev/prod} --enable-helm | kubectl delete -f -
+    # In case failed to delete application https://argo-cd.readthedocs.io/en/latest/user-guide/app_deletion/
     ```
 
 3. **Create local DNS (minikube)**:
@@ -72,7 +73,7 @@ We use Kargo to implement a promotion strategy:
 
 1. **Development**: Automatic deployment of new images
 2. **Staging**: WIP
-3. **Production**: WIP
+3. **Production**: Automatic deployment of new images
 
 ## Usage Examples
 

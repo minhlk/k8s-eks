@@ -24,6 +24,8 @@ spec:
       name: '{{name}}'
       labels:
         order: '{{order}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
     spec:
       destination:
         server: https://kubernetes.default.svc
